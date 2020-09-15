@@ -1,13 +1,11 @@
 import axios from "axios";
 
 import authHeader from "./auth-header";
-import AuthService from "./auth.service";
 
 const API_URL = "http://localhost:8080/api";
 
 const findAll = () => {
-  const user = AuthService.getCurrentUser();
-  return axios.get(API_URL + "/users/" + user.user.data.id + "/user-courses", {
+  return axios.get(API_URL + "/courses?sortField=id&sortOrder=ASC", {
     headers: authHeader(),
   });
 };

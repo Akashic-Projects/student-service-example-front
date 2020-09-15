@@ -11,20 +11,19 @@ const findAll = () => {
     API_URL +
       "/users/" +
       user.user.data.id +
-      "/user-recoms?sortField=id&sortOrder=ASC",
+      "/user-notifs?sortField=id&sortOrder=ASC",
     {
       headers: authHeader(),
     }
   );
 };
 
-const update = (userRecom_id, ignored, accepted) => {
+const update = (userNotif_id, ignored) => {
   const user = AuthService.getCurrentUser();
   return axios.put(
-    API_URL + "/users/" + user.user.data.id + "/user-recoms/" + userRecom_id,
+    API_URL + "/users/" + user.user.data.id + "/user-notifs/" + userNotif_id,
     {
       ignored,
-      accepted,
     },
     {
       headers: authHeader(),

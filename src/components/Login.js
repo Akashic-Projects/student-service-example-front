@@ -6,6 +6,8 @@ import { store } from "react-notifications-component";
 import notif from "./Notif";
 import AuthService from "./../services/auth.service";
 
+import { useHistory } from "react-router-dom";
+
 const { Title } = Typography;
 const layout = {
   labelCol: { span: 5 },
@@ -15,29 +17,31 @@ const tailLayout = {
   wrapperCol: { offset: 5, span: 16 },
 };
 
-const handleFinish = (props, values) => {
-  AuthService.login(values.email, values.password).then(
-    () => {
-      props.history.push("/");
-      window.location.reload();
-      store.addNotification(
-        notif("Success", "User is successfully logged in.", "success")
-      );
-    },
-    (error) => {
-      const resMessage =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+const Login = () => {
+  const history = useHistory();
 
-      store.addNotification(notif("Error", resMessage, "danger"));
-    }
-  );
-};
+  const handleFinish = (values) => {
+    AuthService.login(values.email, values.password).then(
+      () => {
+        history.push("/courses");
+        window.location.reload();
+        store.addNotification(
+          notif("Success", "User is successfully logged in.", "success")
+        );
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
 
-const Login = (props) => {
+        store.addNotification(notif("Error", resMessage, "danger"));
+      }
+    );
+  };
+
   return (
     <div style={{ textAlign: "center" }}>
       <Title level={5} style={{ textAlign: "left" }}>
@@ -48,7 +52,7 @@ const Login = (props) => {
         {...layout}
         name="basic"
         onFinish={(v) => {
-          handleFinish(props, v);
+          handleFinish(v);
         }}
       >
         <Form.Item
